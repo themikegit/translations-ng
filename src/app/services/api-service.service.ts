@@ -16,22 +16,30 @@ export class ApiServiceService {
       params = new HttpParams().set('missing', query);
     }
 
-    return this.http.get<TranslationItem[]>('http://localhost:3000/task', {
-      params,
-    });
+    return this.http.get<TranslationItem[]>(
+      'https://i18n-hub-62d28556e54a.herokuapp.com/task',
+      {
+        params,
+      }
+    );
   }
 
   deleteItem(id: string) {
-    return this.http.delete('http://localhost:3000/task/' + id);
+    return this.http.delete(
+      'https://i18n-hub-62d28556e54a.herokuapp.com/task/' + id
+    );
   }
 
   createSingleTask(body: TranslationItem) {
-    return this.http.post<TranslationItem>('http://localhost:3000/task', body);
+    return this.http.post<TranslationItem>(
+      'https://i18n-hub-62d28556e54a.herokuapp.com/task',
+      body
+    );
   }
 
   updateTranslationObj(id: string, body: any) {
     return this.http.patch<TranslationItem>(
-      'http://localhost:3000/task/' + id,
+      'https://i18n-hub-62d28556e54a.herokuapp.com/task' + id,
       body
     );
   }
