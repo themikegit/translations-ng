@@ -12,12 +12,16 @@ Injectable({
 });
 
 export class TokenInterceptor implements HttpInterceptor {
-  token = localStorage.getItem('accessToken');
+  ls = localStorage.getItem('user');
+  t = this.ls ? JSON.parse(this.ls) : null;
+  token = this.t?.ac;
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log(this.token);
+
     const request = req.clone({
       setHeaders: {
         Authorization: `Bearer ${this.token}`,

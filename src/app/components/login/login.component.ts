@@ -25,7 +25,7 @@ import { ApiServiceService } from 'src/app/services/api-service.service';
     </mat-form-field>
 
     <button mat-flat-button (click)="login()" color="primary">Login</button>
-    <button mat-flat-button (click)="cancel()" color="secondary">Cancel</button>
+    <button mat-flat-button [routerLink]="'/'" color="secondary">Cancel</button>
   </div>`,
   styles: [
     `
@@ -42,8 +42,8 @@ import { ApiServiceService } from 'src/app/services/api-service.service';
 export class LoginComponent {
   private apiService = inject(ApiServiceService);
   private router = inject(Router);
-  username!: string;
-  password!: string;
+  username = 'mixia';
+  password = 'maxiiasd';
   login() {
     this.apiService
       .signIn({
@@ -51,9 +51,10 @@ export class LoginComponent {
         password: this.password,
       })
       .subscribe((r: any) => {
-        localStorage.setItem('accessToken', r.accessToken);
+        localStorage.setItem('user', JSON.stringify(r));
+        console.log(r);
+
         this.router.navigateByUrl('');
       });
   }
-  cancel() {}
 }

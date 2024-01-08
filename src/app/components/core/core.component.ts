@@ -27,17 +27,31 @@ import { MatSnackBar } from '@angular/material/snack-bar';
           class="example-icon favorite-icon"
           aria-label="Example icon-button with heart icon"
           (click)="addKey()"
+          [disabled]="!user"
         >
           <mat-icon>add</mat-icon>
         </button>
-        <button
-          mat-icon-button
-          class="example-icon"
-          aria-label="Example icon-button with share icon"
-          (click)="logOut()"
-        >
-          <mat-icon>logout</mat-icon>
-        </button>
+        <div class="profile" *ngIf="user; else login">
+          <div class="avatar">{{ user.username.charAt(0).toUpperCase() }}</div>
+          <button
+            mat-icon-button
+            class="example-icon"
+            aria-label="Example icon-button with share icon"
+            (click)="logOut()"
+          >
+            <mat-icon>logout</mat-icon>
+          </button>
+        </div>
+        <ng-template #login>
+          <button
+            mat-icon-button
+            class="example-icon"
+            aria-label="Example icon-button with share icon"
+            [routerLink]="'/login'"
+          >
+            <mat-icon>login</mat-icon>
+          </button>
+        </ng-template>
       </mat-toolbar>
       <mat-drawer-container class="example-container" autosize>
         <mat-drawer #drawer class="example-sidenav" mode="side">
@@ -249,6 +263,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                       <mat-icon>edit</mat-icon>
                     </button>
                     <button
+                      [disabled]="!user"
                       (click)="deleteKey(element)"
                       mat-icon-button
                       color="warn"
@@ -291,6 +306,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         flex-direction: column;
         padding: 10px;
       }
+
+      .avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 50px;
+        color: white;
+        background-color: blue;
+        padding: 4px;
+      }
+      .profile {
+        display: flex;
+      }
     `,
   ],
 })
@@ -309,6 +339,8 @@ export class CoreComponent {
   rs!: string;
   description!: string;
   displayedColumns: string[] = [];
+
+  user: any;
 
   id!: string;
 
@@ -331,6 +363,9 @@ export class CoreComponent {
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
+    const ls = localStorage.getItem('user');
+    this.user = ls ? JSON.parse(ls) : null;
+
     this.apiService.getAllTasks().subscribe((r: TranslationItem[]) => {
       this.dataSource.set(r);
 
@@ -392,7 +427,7 @@ export class CoreComponent {
   }
 
   logOut() {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
     this.router.navigateByUrl('login');
   }
 
