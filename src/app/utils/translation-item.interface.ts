@@ -5,5 +5,6 @@ export interface TranslationItem {
   en: string;
   de: string;
   rs: string;
+  uniqueKey: string;
   description: string;
 }

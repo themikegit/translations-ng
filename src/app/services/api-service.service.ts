@@ -15,8 +15,6 @@ export class ApiServiceService {
     } else {
       console.log('running in PROD');
     }
-
-    console.log(environment.apiUrl);
   }
 
   getAllTasks(query?: string) {
@@ -42,6 +40,10 @@ export class ApiServiceService {
       `${environment.apiUrl}/task/${id}`,
       body
     );
+  }
+
+  signIn(body: { username: string; password: string }) {
+    return this.http.post(`${environment.apiUrl}/auth/signin`, body);
   }
 
   // getServerSideEvent(url: string) {

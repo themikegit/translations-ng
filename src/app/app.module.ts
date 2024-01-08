@@ -18,9 +18,21 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslationNameSpaceComponent } from './components/translation-name-space/translation-name-space.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalComponent } from './components/modal/modal.component';
+import { LoginComponent } from './components/login/login.component';
+import { CoreComponent } from './components/core/core.component';
 
 @NgModule({
-  declarations: [AppComponent, TranslationNameSpaceComponent],
+  declarations: [
+    AppComponent,
+    TranslationNameSpaceComponent,
+    ModalComponent,
+    LoginComponent,
+    CoreComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -37,6 +49,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatSidenavModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   providers: [
     {
