@@ -32,7 +32,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
           <mat-icon>add</mat-icon>
         </button>
         <div class="profile" *ngIf="user; else login">
-          <div class="avatar">{{ user.username.charAt(0).toUpperCase() }}</div>
+          <div class="avatar">{{ 'T' }}</div>
           <button
             mat-icon-button
             class="example-icon"
