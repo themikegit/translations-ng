@@ -19,6 +19,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslationNameSpaceComponent } from './components/translation-name-space/translation-name-space.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalComponent } from './components/modal/modal.component';
@@ -51,6 +52,7 @@ import { CoreComponent } from './components/core/core.component';
     MatRadioModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatListModule,
   ],
   providers: [
     {

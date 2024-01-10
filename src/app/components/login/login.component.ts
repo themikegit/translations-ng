@@ -52,7 +52,6 @@ export class LoginComponent {
       })
       .subscribe((r: any) => {
         localStorage.setItem('user', JSON.stringify(r));
-        console.log(r);
 
         this.router.navigateByUrl('');
       });

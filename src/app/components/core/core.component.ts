@@ -86,17 +86,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
             <mat-form-field appearance="outline" class="field">
               <mat-label>EN</mat-label>
-              <input matInput placeholder="Ex. Pizza" [(ngModel)]="en" />
+              <input matInput placeholder="English term" [(ngModel)]="en" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="field">
               <mat-label>DE</mat-label>
-              <input matInput placeholder="Ex. Pizza" [(ngModel)]="de" />
+              <input matInput placeholder="German term" [(ngModel)]="de" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="field">
               <mat-label>RS</mat-label>
-              <input matInput placeholder="Ex. Pizza" [(ngModel)]="rs" />
+              <input matInput placeholder="Serbian term" [(ngModel)]="rs" />
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="field">
@@ -125,163 +125,198 @@ import { MatSnackBar } from '@angular/material/snack-bar';
         <div class="example-sidenav-content">
           <mat-tab-group>
             <mat-tab label="Missing Translations">
-              <h4>Find missing in</h4>
-              <section class="example-section">
-                <mat-radio-button
-                  (change)="selectFilter($event)"
-                  value="de"
-                  class="cb"
-                  >DE</mat-radio-button
+              <div class="contain">
+                <h4>Find missing in</h4>
+                <section class="example-section">
+                  <mat-radio-button
+                    (change)="selectFilter($event)"
+                    value="de"
+                    class="cb"
+                    >DE</mat-radio-button
+                  >
+                  <mat-radio-button
+                    (change)="selectFilter($event)"
+                    value="rs"
+                    class="cb"
+                    >RS</mat-radio-button
+                  >
+                </section>
+
+                <table
+                  mat-table
+                  [dataSource]="filteredDataSource()"
+                  class="mat-elevation-z8"
                 >
-                <mat-radio-button
-                  (change)="selectFilter($event)"
-                  value="rs"
-                  class="cb"
-                  >RS</mat-radio-button
-                >
-              </section>
+                  <ng-container matColumnDef="en">
+                    <th mat-header-cell *matHeaderCellDef>En</th>
+                    <td mat-cell *matCellDef="let element">
+                      <app-translation-name-space
+                        [nameSpace]="element.en"
+                      ></app-translation-name-space>
+                    </td>
+                  </ng-container>
 
-              <table
-                mat-table
-                [dataSource]="filteredDataSource()"
-                class="mat-elevation-z8"
-              >
-                <ng-container matColumnDef="en">
-                  <th mat-header-cell *matHeaderCellDef>En</th>
-                  <td mat-cell *matCellDef="let element">
-                    <app-translation-name-space
-                      [nameSpace]="element.en"
-                    ></app-translation-name-space>
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="de">
+                    <th mat-header-cell *matHeaderCellDef>De</th>
+                    <td mat-cell *matCellDef="let element">
+                      <app-translation-name-space
+                        [nameSpace]="element.de"
+                      ></app-translation-name-space>
+                    </td>
+                  </ng-container>
 
-                <ng-container matColumnDef="de">
-                  <th mat-header-cell *matHeaderCellDef>De</th>
-                  <td mat-cell *matCellDef="let element">
-                    <app-translation-name-space
-                      [nameSpace]="element.de"
-                    ></app-translation-name-space>
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="rs">
+                    <th mat-header-cell *matHeaderCellDef>Rs</th>
+                    <td mat-cell *matCellDef="let element">
+                      <app-translation-name-space
+                        [nameSpace]="element.rs"
+                      ></app-translation-name-space>
+                    </td>
+                  </ng-container>
 
-                <ng-container matColumnDef="rs">
-                  <th mat-header-cell *matHeaderCellDef>Rs</th>
-                  <td mat-cell *matCellDef="let element">
-                    <app-translation-name-space
-                      [nameSpace]="element.rs"
-                    ></app-translation-name-space>
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.description }}
+                    </td>
+                  </ng-container>
 
-                <ng-container matColumnDef="description">
-                  <th mat-header-cell *matHeaderCellDef>Description</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.description }}
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="key">
+                    <th mat-header-cell *matHeaderCellDef>Key</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.app }}_{{ element.component }}_{{
+                        element.key
+                      }}
+                    </td>
+                  </ng-container>
 
-                <ng-container matColumnDef="key">
-                  <th mat-header-cell *matHeaderCellDef>Key</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.app }}_{{ element.component }}_{{ element.key }}
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                      <button
+                        (click)="editKey(element)"
+                        mat-icon-button
+                        color="warn"
+                        aria-label="Example icon button with a heart icon"
+                      >
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button
+                        (click)="deleteKey(element)"
+                        mat-icon-button
+                        color="warn"
+                        aria-label="Example icon button with a heart icon"
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
 
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef></th>
-                  <td mat-cell *matCellDef="let element">
-                    <button
-                      (click)="editKey(element)"
-                      mat-icon-button
-                      color="warn"
-                      aria-label="Example icon button with a heart icon"
-                    >
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button
-                      (click)="deleteKey(element)"
-                      mat-icon-button
-                      color="warn"
-                      aria-label="Example icon button with a heart icon"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr
-                  mat-row
-                  *matRowDef="let row; columns: displayedColumns"
-                ></tr>
-              </table>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    class="row-head"
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
+                </table>
+              </div>
             </mat-tab>
             <mat-tab label="All Translations">
-              <table
-                mat-table
-                [dataSource]="dataSource()"
-                class="mat-elevation-z8"
-              >
-                <ng-container matColumnDef="en">
-                  <th mat-header-cell *matHeaderCellDef>En</th>
-                  <td mat-cell *matCellDef="let element">{{ element.en }}</td>
-                </ng-container>
+              <div class="contain">
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-icon matPrefix>search</mat-icon>
+                  <input matInput placeholder="Search strings" value="" />
+                </mat-form-field>
+                <table
+                  mat-table
+                  [dataSource]="dataSource()"
+                  class="mat-elevation-z8"
+                >
+                  <ng-container matColumnDef="en">
+                    <th mat-header-cell *matHeaderCellDef>En</th>
+                    <td mat-cell *matCellDef="let element">{{ element.en }}</td>
+                  </ng-container>
 
-                <ng-container matColumnDef="de">
-                  <th mat-header-cell *matHeaderCellDef>De</th>
-                  <td mat-cell *matCellDef="let element">{{ element.de }}</td>
-                </ng-container>
+                  <ng-container matColumnDef="de">
+                    <th mat-header-cell *matHeaderCellDef>De</th>
+                    <td mat-cell *matCellDef="let element">{{ element.de }}</td>
+                  </ng-container>
 
-                <ng-container matColumnDef="rs">
-                  <th mat-header-cell *matHeaderCellDef>Rs</th>
-                  <td mat-cell *matCellDef="let element">{{ element.rs }}</td>
-                </ng-container>
+                  <ng-container matColumnDef="rs">
+                    <th mat-header-cell *matHeaderCellDef>Rs</th>
+                    <td mat-cell *matCellDef="let element">{{ element.rs }}</td>
+                  </ng-container>
 
-                <ng-container matColumnDef="description">
-                  <th mat-header-cell *matHeaderCellDef>Description</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.description }}
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.description }}
+                    </td>
+                  </ng-container>
 
-                <ng-container matColumnDef="key">
-                  <th mat-header-cell *matHeaderCellDef>Key</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.uniqueKey }}
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="key">
+                    <th mat-header-cell *matHeaderCellDef>Key</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.uniqueKey }}
+                    </td>
+                  </ng-container>
 
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef></th>
-                  <td mat-cell *matCellDef="let element">
-                    <button
-                      (click)="editKey(element)"
-                      mat-icon-button
-                      color="warn"
-                      aria-label="Example icon button with a heart icon"
-                    >
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button
-                      [disabled]="!user"
-                      (click)="deleteKey(element)"
-                      mat-icon-button
-                      color="warn"
-                      aria-label="Example icon button with a heart icon"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                      <button
+                        (click)="editKey(element)"
+                        mat-icon-button
+                        color="warn"
+                        aria-label="Example icon button with a heart icon"
+                      >
+                        <mat-icon class="ico">edit</mat-icon>
+                      </button>
+                      <button
+                        [disabled]="!user"
+                        (click)="deleteKey(element)"
+                        mat-icon-button
+                        color="warn"
+                        aria-label="Example icon button with a heart icon"
+                      >
+                        <mat-icon class="ico">delete</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr
-                  mat-row
-                  *matRowDef="let row; columns: displayedColumns"
-                ></tr>
-              </table>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
+                </table>
+              </div>
             </mat-tab>
-            <mat-tab label="Configuration"> </mat-tab>
+            <mat-tab label="Configuration">
+              <div class="contain">
+                <div>
+                  <div class="act">
+                    <h4>App</h4>
+                    <button mat-icon-button>
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                  <mat-list role="list">
+                    <mat-list-item role="listitem">ISMS</mat-list-item>
+                    <mat-list-item role="listitem">TSKM</mat-list-item>
+                    <mat-list-item role="listitem">BCMS</mat-list-item>
+                  </mat-list>
+                </div>
+                <div>
+                  <h4>Components</h4>
+                  <mat-list role="list">
+                    <mat-list-item role="listitem">TAB</mat-list-item>
+                    <mat-list-item role="listitem">MODAL</mat-list-item>
+                    <mat-list-item role="listitem">FORM</mat-list-item>
+                  </mat-list>
+                </div>
+              </div>
+            </mat-tab>
           </mat-tab-group>
         </div>
       </mat-drawer-container>
@@ -289,6 +324,32 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   `,
   styles: [
     `
+      .act {
+        display: flex;
+        align-items: center;
+      }
+      .act h4 {
+        padding: 0;
+        margin: 0;
+      }
+      .mat-toolbar-single-row {
+        background-color: #07032e !important;
+        color: white;
+      }
+      .mat-mdc-table {
+        box-shadow: none;
+      }
+
+      .contain {
+        padding: 30px;
+      }
+      .ico {
+        font-size: 20px;
+        color: #70718b;
+      }
+      .mat-mdc-table .mdc-data-table__header-row {
+        background-color: #e9e9ff;
+      }
       .example-spacer {
         flex: 1 1 auto;
       }
