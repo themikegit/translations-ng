@@ -84,6 +84,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
               />
             </mat-form-field>
 
+            <mat-divider></mat-divider>
+            <hr />
+
             <mat-form-field appearance="outline" class="field">
               <mat-label>EN</mat-label>
               <input matInput placeholder="English term" [(ngModel)]="en" />
@@ -426,6 +429,10 @@ export class CoreComponent {
   ngOnInit() {
     const ls = localStorage.getItem('user');
     this.user = ls ? JSON.parse(ls) : null;
+
+    this.apiService.getStructure().subscribe((r) => {
+      console.log(r);
+    });
 
     this.apiService.getAllTasks().subscribe((r: TranslationItem[]) => {
       this.dataSource.set(r);

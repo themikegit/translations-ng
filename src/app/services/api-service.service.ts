@@ -46,6 +46,10 @@ export class ApiServiceService {
     return this.http.post(`${environment.apiUrl}/auth/signin`, body);
   }
 
+  getStructure() {
+    return this.http.get(`${environment.apiUrl}/structure`);
+  }
+
   // getServerSideEvent(url: string) {
   //   return new Observable((observer) => {
   //     const evSource = this.sse.getEventSource(url);

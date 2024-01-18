@@ -25,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ModalComponent } from './components/modal/modal.component';
 import { LoginComponent } from './components/login/login.component';
 import { CoreComponent } from './components/core/core.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CoreComponent } from './components/core/core.component';
     MatDialogModule,
     MatSnackBarModule,
     MatListModule,
+    MatDividerModule,
   ],
   providers: [
     {
